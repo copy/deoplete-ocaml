@@ -37,7 +37,7 @@ class Source(Base):
         return self.vim.eval('exists("{0}") ? {0} : []'.format(name))
 
     def on_init(self, context): # called by deoplete
-        self.merlin_completion_with_doc = self._is_set("merlin_completion_with_doc")
+        self.merlin_completion_with_doc = self._is_set("g:merlin_completion_with_doc")
         self.merlin_binary = self.vim.eval("merlin#SelectBinary()")
         self.merlin_binary_flags = self.vim.eval('g:merlin_binary_flags')
         self.buffer_merlin_flags = self._list_if_set('b:merlin_flags')
