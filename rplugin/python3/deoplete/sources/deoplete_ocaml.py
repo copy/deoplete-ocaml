@@ -26,7 +26,7 @@ class Source(Base):
         self.current = vim.current
         self.vim = vim
         self.debug_enabled = False
-        self.complete_query_re = re.compile(r'[^\s\'"()]*$')
+        self.complete_query_re = re.compile(r'[^\s\'"()[\]]*$')
 
     def _is_set(self, name, default=False):
         if not self.vim.eval('exists("%s")' % name):
