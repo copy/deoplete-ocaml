@@ -26,7 +26,11 @@ class Source(Base):
         self.current = vim.current
         self.vim = vim
         self.debug_enabled = False
-        self.complete_query_re = re.compile(r'[^\s\'"()[\]]*$')
+        self.complete_query_re = re.compile(r'[^#\s\'"()[\]]*$')
+
+        # Expression suggested by merlin:
+        #   https://github.com/ocaml/merlin/blob/a2facd4bb772ee0261859382964c30e8401866e8/vim/merlin/doc/merlin.txt#L352
+        #self.complete_query_re = re.compile(r'[^. *\t]\.\w*$|\s\w*$|#$', re.I)
 
     def _is_set(self, name, default=False):
         if not self.vim.eval('exists("%s")' % name):
