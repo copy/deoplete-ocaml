@@ -26,6 +26,7 @@ class Source(Base):
         self.current = vim.current
         self.vim = vim
         self.debug_enabled = False
+        self.get_complete_position_re = re.compile(r"\w*$")
         self.complete_query_re = re.compile(r'[^#\s\'"()[\]]*$')
 
         # Expression suggested by merlin:
@@ -56,7 +57,9 @@ class Source(Base):
         self.merlin_log_errors = log_errors
 
     def get_complete_position(self, context): # called by deoplete
-        m = re.search(self.complete_query_re, context["input"])
+        m = re.search(self.get_complete_position_re, context["input"])
+        if DEBUG:
+            pprint.pprint(m.start() if m else None, open("/tmp/deoplete-ocaml-complete-position.log", "a"))
         return m.start() if m else None
 
     def _get_complete_query(self, context):
@@ -112,14 +115,14 @@ class Source(Base):
                 pprint.pprint(e, open("/tmp/deoplete-ocaml-exn.log", "a"))
 
         if DEBUG:
-            pprint.pprint(errors, open("/tmp/deoplete-ocaml-merlin-errors.log", "a"))
+            if errors: pprint.pprint(errors, open("/tmp/deoplete-ocaml-merlin-errors.log", "a"))
             pprint.pprint(entries, open("/tmp/deoplete-ocaml-entries.log", "a"))
             pprint.pprint(context, open("/tmp/deoplete-ocaml-context.log", "a"))
             pprint.pprint(cmd, open("/tmp/deoplete-ocaml-cmd.log", "a"))
 
         complete_entries = [
             {
-                "word": prefix + e["name"],
+                "word": e["name"],
                 "abbr": e["name"],
                 "kind": e["desc"],
                 "info": e["name"] + " : " + e["desc"] + "\n" + e["info"].strip(),
