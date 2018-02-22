@@ -34,18 +34,17 @@ class Source(Base):
         #self.complete_query_re = re.compile(r'[^. *\t]\.\w*$|\s\w*$|#$', re.I)
 
     def _is_set(self, name, default=False):
-        if not self.vim.eval('exists("%s")' % name):
+        if not self.vim.eval("exists('%s')" % name):
             return default
         return not (self.vim.eval(name) in ["", 0, "0", "false"])
 
     def _list_if_set(self, name):
-        return self.vim.eval('exists("{0}") ? {0} : []'.format(name))
+        return self.vim.eval("exists('{0}') ? {0} : []".format(name))
 
     def on_init(self, context): # called by deoplete
         self.merlin_completion_with_doc = self._is_set("g:merlin_completion_with_doc")
-        self.merlin_binary = self.vim.eval("merlin#SelectBinary()")
-        self.merlin_binary_flags = self.vim.eval('g:merlin_binary_flags')
-        self.buffer_merlin_flags = self._list_if_set('b:merlin_flags')
+        self.merlin_binary_flags = self.vim.eval("g:merlin_binary_flags")
+        self.buffer_merlin_flags = self._list_if_set("b:merlin_flags")
         self.merlin_extensions = concat_map(lambda ext: ("-extension",ext), self._list_if_set("b:merlin_extensions"))
         self.merlin_packages = concat_map(lambda pkg: ("-package",pkg), self._list_if_set("b:merlin_packages"))
         self.merlin_dot_merlins = concat_map(lambda dm: ("-dot-merlin",dm), self._list_if_set("b:merlin_dot_merlins"))
