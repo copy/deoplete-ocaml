@@ -47,7 +47,7 @@ class Source(Base):
 
         try:
             self.merlin_binary = self.vim.eval("merlin#SelectBinary()")
-        except:
+        except nvim.NvimError:
             util.debug(self.vim, "Merlin not found, make sure ocamlmerlin is in your path and merlin's vim plugin is installed")
             self.merlin_binary = None
             return
