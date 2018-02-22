@@ -6,6 +6,8 @@ import subprocess
 import json
 import pprint
 
+from neovim.api import nvim
+from deoplete import util
 
 DEBUG = False
 
@@ -42,6 +44,14 @@ class Source(Base):
         return self.vim.eval("exists('{0}') ? {0} : []".format(name))
 
     def on_init(self, context): # called by deoplete
+
+        try:
+            self.merlin_binary = self.vim.eval("merlin#SelectBinary()")
+        except:
+            util.debug(self.vim, "Merlin not found, make sure ocamlmerlin is in your path and merlin's vim plugin is installed")
+            self.merlin_binary = None
+            return
+
         self.merlin_completion_with_doc = self._is_set("g:merlin_completion_with_doc")
         self.merlin_binary_flags = self.vim.eval("g:merlin_binary_flags")
         self.buffer_merlin_flags = self._list_if_set("b:merlin_flags")
@@ -66,6 +76,10 @@ class Source(Base):
         return m.group() if m else None
 
     def gather_candidates(self, context): # called by deoplete
+
+        if not self.merlin_binary:
+            return []
+
         prefix = self._get_complete_query(context) or ""
         filename = context["bufpath"]
         position = "{}:{}".format(context["position"][1], context["position"][2])
