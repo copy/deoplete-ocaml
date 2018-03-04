@@ -32,7 +32,7 @@ class Source(Base):
         self.complete_query_re = re.compile(r'[^#\s\'"()[\]]*$')
 
         # Expression suggested by merlin:
-        #   https://github.com/ocaml/merlin/blob/a2facd4bb772ee0261859382964c30e8401866e8/vim/merlin/doc/merlin.txt#L352
+        #   https://github.com/ocaml/merlin/blob/a2facd4bb772e/vim/merlin/doc/merlin.txt#L352
         #self.complete_query_re = re.compile(r'[^. *\t]\.\w*$|\s\w*$|#$', re.I)
 
     def _is_set(self, name, default=False):
@@ -48,16 +48,20 @@ class Source(Base):
         try:
             self.merlin_binary = self.vim.eval("merlin#SelectBinary()")
         except nvim.NvimError:
-            util.debug(self.vim, "Merlin not found, make sure ocamlmerlin is in your path and merlin's vim plugin is installed")
+            util.debug(self.vim, "Merlin not found, make sure ocamlmerlin is in your path"
+                                 " and merlin's vim plugin is installed.")
             self.merlin_binary = None
             return
 
         self.merlin_completion_with_doc = self._is_set("g:merlin_completion_with_doc")
         self.merlin_binary_flags = self.vim.eval("g:merlin_binary_flags")
         self.buffer_merlin_flags = self._list_if_set("b:merlin_flags")
-        self.merlin_extensions = concat_map(lambda ext: ("-extension",ext), self._list_if_set("b:merlin_extensions"))
-        self.merlin_packages = concat_map(lambda pkg: ("-package",pkg), self._list_if_set("b:merlin_packages"))
-        self.merlin_dot_merlins = concat_map(lambda dm: ("-dot-merlin",dm), self._list_if_set("b:merlin_dot_merlins"))
+        self.merlin_extensions = concat_map(lambda ext: ("-extension", ext),
+                                            self._list_if_set("b:merlin_extensions"))
+        self.merlin_packages = concat_map(lambda pkg: ("-package", pkg),
+                                          self._list_if_set("b:merlin_packages"))
+        self.merlin_dot_merlins = concat_map(lambda dm: ("-dot-merlin", dm),
+                                             self._list_if_set("b:merlin_dot_merlins"))
 
         if self._is_set("g:merlin_debug"):
             log_errors = ["-log-file", "-"]
@@ -115,7 +119,7 @@ class Source(Base):
         (output, errors) = process.communicate(input=input)
 
         if errors:
-            buf = int(self.vim.eval("bufnr('*merlin-log*',1)"))
+            buf = int(self.vim.eval("bufnr('*merlin-log*', 1)"))
             self.vim.buffers[buf].append(errors.split(b'\n'))
 
         try:
