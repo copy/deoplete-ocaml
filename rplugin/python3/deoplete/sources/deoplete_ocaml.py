@@ -68,7 +68,8 @@ class Source(Base):
     def get_complete_position(self, context): # called by deoplete
         m = re.search(self.get_complete_position_re, context["input"])
         if DEBUG:
-            pprint.pprint(m.start() if m else None, open("/tmp/deoplete-ocaml-complete-position.log", "a"))
+            with open("/tmp/deoplete-ocaml-complete-position.log", "a") as f:
+                pprint.pprint(m.start() if m else None, f)
         return m.start() if m else None
 
     def _get_complete_query(self, context):
@@ -125,13 +126,15 @@ class Source(Base):
             entries = []
 
             if DEBUG:
-                pprint.pprint(e, open("/tmp/deoplete-ocaml-exn.log", "a"))
+                with open("/tmp/deoplete-ocaml-exn.log", "a"): pprint.pprint(e, f)
 
         if DEBUG:
-            if errors: pprint.pprint(errors, open("/tmp/deoplete-ocaml-merlin-errors.log", "a"))
-            pprint.pprint(entries, open("/tmp/deoplete-ocaml-entries.log", "a"))
-            pprint.pprint(context, open("/tmp/deoplete-ocaml-context.log", "a"))
-            pprint.pprint(cmd, open("/tmp/deoplete-ocaml-cmd.log", "a"))
+            if errors:
+                with open("/tmp/deoplete-ocaml-merlin-errors.log", "a") as f:
+                    pprint.pprint(errors, f)
+            with open("/tmp/deoplete-ocaml-entries.log", "a") as f: pprint.pprint(entries, f)
+            with open("/tmp/deoplete-ocaml-context.log", "a") as f: pprint.pprint(context, f)
+            with open("/tmp/deoplete-ocaml-cmd.log", "a") as f: pprint.pprint(cmd, f)
 
         complete_entries = [
             {
