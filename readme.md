@@ -24,7 +24,7 @@ let g:deoplete#complete_method = "complete"
 
 " other completion sources suggested to disable
 let g:deoplete#ignore_sources = {}
-let g:deoplete#ignore_sources.ocaml = ['buffer', 'around']
+let g:deoplete#ignore_sources.ocaml = ['buffer', 'around', 'member']
 
 " no delay before completion
 let g:deoplete#auto_complete_delay = 0
