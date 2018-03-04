@@ -3,7 +3,7 @@ deoplete-ocaml
 
 Asynchronous completion for OCaml in vim or neovim using merlin and deoplete.
 
-Status: Experimental, please test and report bugs.
+Status: Experimental, but working well in practice.
 
 Requirements
 -
