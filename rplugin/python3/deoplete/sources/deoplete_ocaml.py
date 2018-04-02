@@ -123,7 +123,7 @@ class Source(Base):
             self.vim.buffers[buf].append(errors.split(b'\n'))
 
         try:
-            result_json = json.loads(output)
+            result_json = json.loads(output.decode('utf-8'))
             value = result_json["value"]
             entries = value["entries"]
         except Exception as e:
