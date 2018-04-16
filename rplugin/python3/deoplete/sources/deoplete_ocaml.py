@@ -24,7 +24,7 @@ class Source(Base):
         self.mark = '[ocaml]'
         self.filetypes = ['ocaml']
         self.rank = 1000
-        self.input_pattern = r'[^\s\'"]*'
+        self.input_pattern = r'[^\s\'"]+'
         self.current = vim.current
         self.vim = vim
         self.debug_enabled = False
