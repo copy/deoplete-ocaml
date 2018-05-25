@@ -22,7 +22,7 @@ class Source(Base):
 
         self.name = 'ocaml'
         self.mark = '[ocaml]'
-        self.filetypes = ['ocaml']
+        self.filetypes = ['ocaml', 'reason']
         self.rank = 1000
         self.input_pattern = r'[^\s\'"]+'
         self.current = vim.current
