@@ -6,7 +6,7 @@ import subprocess
 import json
 import pprint
 
-from neovim.api import nvim
+from neovim.api import NvimError
 from deoplete import util
 
 DEBUG = False
@@ -47,7 +47,7 @@ class Source(Base):
 
         try:
             self.merlin_binary = self.vim.eval("merlin#SelectBinary()")
-        except nvim.NvimError:
+        except NvimError:
             util.debug(self.vim, "Merlin not found, make sure ocamlmerlin is in your path"
                                  " and merlin's vim plugin is installed.")
             self.merlin_binary = None
