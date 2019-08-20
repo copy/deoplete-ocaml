@@ -119,9 +119,10 @@ class Source(Base):
 
         (output, errors) = process.communicate(input=input)
 
-        if errors:
-            buf = int(self.vim.eval("bufnr('*merlin-log*', 1)"))
-            self.vim.buffers[buf].append(errors.split(b'\n'))
+        # This seems to be causing problems with the cursor unexpectedly moving
+        #if errors:
+        #    buf = int(self.vim.eval("bufnr('*merlin-log*', 1)"))
+        #    self.vim.buffers[buf].append(errors.split(b'\n'))
 
         try:
             result_json = json.loads(output.decode('utf-8'))
