@@ -5,13 +5,14 @@ import re
 import subprocess
 import json
 import pprint
+from typing import List
 
 from neovim.api import NvimError
 from deoplete import util
 
 DEBUG = False
 
-def concat_map(f, args):
+def concat_map(f, args) -> List:
     return [item for arg in args for item in f(arg)]
 
 
