@@ -130,7 +130,7 @@ class Source(Base):
             entries = []
 
             if DEBUG:
-                with open("/tmp/deoplete-ocaml-exn.log", "a"): pprint.pprint(e, f)
+                with open("/tmp/deoplete-ocaml-exn.log", "a") as f: pprint.pprint(e, f)
 
         if DEBUG:
             if errors:
