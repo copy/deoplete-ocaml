@@ -30,7 +30,7 @@ class Source(Base):
         self.vim = vim
         self.debug_enabled = False
         self.get_complete_position_re = re.compile(r"\w*$")
-        self.complete_query_re = re.compile(r'[^#\s\'"()[\]]*$')
+        self.complete_query_re = re.compile(r'[^:#\s\'"()[\]]*$')
 
         # Expression suggested by merlin:
         #   https://github.com/ocaml/merlin/blob/a2facd4bb772e/vim/merlin/doc/merlin.txt#L352
